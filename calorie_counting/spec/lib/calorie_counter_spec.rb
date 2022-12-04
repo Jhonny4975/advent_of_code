@@ -5,11 +5,11 @@ require 'calorie_counter'
 require_relative '../support/supplements_inventory'
 
 describe 'Day 1: Calorie Counting' do
-  describe 'finding the elf with the most calories' do
+  describe 'Part one' do
     include SupplementsInventory
 
-    context 'when the list of elves is simple' do
-      it 'should return how many total calories that student is carrying' do
+    context 'with example list' do
+      it 'should return the highest amount of total calories' do
         inventory = <<~STRING
           1000
           2000
@@ -31,18 +31,18 @@ describe 'Day 1: Calorie Counting' do
       end
     end
 
-    context 'when the list of elves is big' do
-      it 'should return how many total calories that student is carrying' do
+    context 'with my puzzle input' do
+      it 'should return the highest amount of total calories' do
         expect(total_calories(SupplementsInventory::INVENTORY)).to eq(69_528)
       end
     end
   end
 
-  describe 'finding the top three elves with the most calories' do
+  describe 'Part two' do
     include SupplementsInventory
 
-    context 'when the list of elves is simple' do
-      it 'should return how many calories the elves are carrying in total' do
+    context 'with example list' do
+      it 'should return to the three highest total calories' do
         inventory = <<~STRING
           1000
           2000
@@ -64,8 +64,8 @@ describe 'Day 1: Calorie Counting' do
       end
     end
 
-    context 'when the list of elves is big' do
-      it 'should return how many calories the elves are carrying in total' do
+    context 'with my puzzle input' do
+      it 'should return to the three highest total calories' do
         expect(total_calories(SupplementsInventory::INVENTORY, 3)).to eq(206_152)
       end
     end

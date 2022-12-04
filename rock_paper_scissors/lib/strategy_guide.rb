@@ -16,7 +16,7 @@ require 'pry-byebug'
 
 def total_of_points(encrypted_strategy, part = nil)
   total = 0
-  strategy = part ? decrypt_part_one(encrypted_strategy) : decrypt_part_two(encrypted_strategy)
+  strategy = part ? decrypt_guide(encrypted_strategy) : decrypt_elf_guide(encrypted_strategy)
 
   strategy.each do |match|
     opponent, player = match
@@ -30,7 +30,7 @@ def total_of_points(encrypted_strategy, part = nil)
   total
 end
 
-def decrypt_part_one(encrypted)
+def decrypt_guide(encrypted)
   encrypted.then do |strategy|
     strategy.gsub!(/[AX]/, 'rock')
     strategy.gsub!(/[BY]/, 'paper')
@@ -39,7 +39,7 @@ def decrypt_part_one(encrypted)
   end
 end
 
-def decrypt_part_two(encrypted)
+def decrypt_elf_guide(encrypted)
   encrypted.then do |strategy|
     strategy.gsub!(/(A\sX)/, 'rock scissor')
     strategy.gsub!(/(A\sY)/, 'rock rock')
