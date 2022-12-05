@@ -12,8 +12,6 @@ WIN_RULE = {
   'scissor' => 'rock'
 }.freeze
 
-require 'pry-byebug'
-
 def total_of_points(encrypted_strategy, part = nil)
   total = 0
   strategy = part ? decrypt_guide(encrypted_strategy) : decrypt_elf_guide(encrypted_strategy)
