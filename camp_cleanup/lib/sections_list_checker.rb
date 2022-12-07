@@ -4,31 +4,38 @@ require 'pry-byebug'
 
 def sections_list_checker(list, part = nil)
   list = list.split("\n").map { |pairs| pairs.split(',') }
-  count = []
 
-  list.each do |pairs|
-    pairs.each_cons(2) do |first_range, second_range|
-      count << 1 and next if part && part_two_check(first_range.scan(/\d+/), second_range.scan(/\d+/))
+  [].tap do |count|
+    list.each { |pairs| part ? part_two_check(pairs, count) : part_one_check(pairs, count) }
+  end.sum
+end
 
-      count << 1 if part_one_check(first_range.scan(/\d+/), second_range.scan(/\d+/))
-    end
+def part_one_check(pairs, count)
+  pairs.each_cons(2) do |first_range, second_range|
+    first_id, second_id = first_range.scan(/\d+/)
+    section, other_section = second_range.scan(/\d+/)
+
+    has_shared_sections =
+      (first_id..second_id).include?(section) && (first_id..second_id).include?(other_section) ||
+      (section..other_section).include?(first_id) && (section..other_section).include?(second_id)
+
+    count << 1 if has_shared_sections
   end
 
-  count.sum
+  count
 end
 
-def part_one_check(first_range, second_range)
-  first_id, second_id = first_range
-  section, other_section = second_range
+def part_two_check(pairs, count)
+  pairs.each_cons(2) do |first_range, second_range|
+    first_id, second_id = first_range.scan(/\d+/)
+    section, other_section = second_range.scan(/\d+/)
 
-  (first_id..second_id).include?(section) && (first_id..second_id).include?(other_section) ||
-    (section..other_section).include?(first_id) && (section..other_section).include?(second_id)
-end
+    has_shared_sections =
+      (first_id..second_id).include?(section) || (first_id..second_id).include?(other_section) ||
+      (section..other_section).include?(first_id) || (section..other_section).include?(second_id)
 
-def part_two_check(first_range, second_range)
-  first_id, second_id = first_range
-  section, other_section = second_range
+    count << 1 if has_shared_sections
+  end
 
-  (first_id..second_id).include?(section) || (first_id..second_id).include?(other_section) ||
-    (section..other_section).include?(first_id) || (section..other_section).include?(second_id)
+  count
 end
